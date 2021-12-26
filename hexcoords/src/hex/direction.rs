@@ -1,4 +1,4 @@
-use crate::hex::RelCoords;
+use crate::hex::coordinates::Relative;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Direction {
@@ -10,13 +10,13 @@ pub enum Direction {
     SouthWest,
 }
 
-impl TryFrom<RelCoords> for Direction {
+impl TryFrom<Relative> for Direction {
     type Error = ();
 
-    fn try_from(rc: RelCoords) -> Result<Direction, ()> {
+    fn try_from(rc: Relative) -> Result<Direction, ()> {
         use Direction::*;
 
-        let RelCoords(v, w) = rc;
+        let Relative(v, w) = rc;
         match (v, w) {
             (-1, 0) => Ok(West),
             (-1, 1) => Ok(NorthWest),
