@@ -5,16 +5,20 @@ use crate::BoardShape;
 mod tests;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub struct HexBoardShape(u64);
+pub struct HexBoardShape(i64);
 
 impl HexBoardShape {
-    pub fn with_radius(radius: u64) -> HexBoardShape {
+    pub fn with_radius(radius: i64) -> HexBoardShape {
+        assert!(radius >= 0);
         HexBoardShape(radius)
     }
 }
 
 impl BoardShape for HexBoardShape {
     fn in_bounds(&self, coords: Absolute) -> bool {
-        todo!("{:?}.in_bounds({:?})", self, coords);
+        let HexBoardShape(radius) = *self;
+        let Absolute(w, v) = coords;
+
+        w.abs() <= radius && v.abs() <= radius && (w + v).abs() <= radius
     }
 }
