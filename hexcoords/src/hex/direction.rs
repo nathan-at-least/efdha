@@ -1,7 +1,11 @@
 use crate::hex::coordinates::Relative;
 
+mod iter;
+
 #[cfg(test)]
 mod tests;
+
+pub use self::iter::DirIter;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Direction {
@@ -15,7 +19,7 @@ pub enum Direction {
 
 impl Direction {
     pub fn iter() -> DirIter {
-        DirIter(Some(Direction::West))
+        DirIter::new()
     }
 
     pub fn clockwise(self) -> Direction {
@@ -64,21 +68,12 @@ impl TryFrom<Relative> for Direction {
     }
 }
 
-pub struct DirIter(Option<Direction>);
+impl std::ops::Mul<i64> for Direction {
+    type Output = Relative;
 
-impl Iterator for DirIter {
-    type Item = Direction;
-
-    fn next(&mut self) -> Option<Direction> {
-        use Direction::*;
-
-        let optitem = self.0;
-        self.0 = match optitem {
-            None => None,
-            Some(SouthWest) => None,
-            Some(d) => Some(d.clockwise()),
-        };
-
-        optitem
+    fn mul(self, d: i64) -> Relative {
+        let mut r = Relative::from(self);
+        r *= d;
+        r
     }
 }

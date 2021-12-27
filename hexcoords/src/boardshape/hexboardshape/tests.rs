@@ -30,7 +30,7 @@ fn in_bounds_2_spot_check() {
     test_bounds(2, &[((-1, -1), true), ((-2, 0), true), ((2, 2), false)]);
 }
 
-fn test_bounds(radius: i64, testvec: &[((i64, i64), bool)]) {
+fn test_bounds(radius: u64, testvec: &[((i64, i64), bool)]) {
     let hbs = HexBoardShape::with_radius(radius);
     for &((w, v), inb) in testvec {
         assert_eq!(inb, hbs.in_bounds(hex::coordinates::Absolute(w, v)));

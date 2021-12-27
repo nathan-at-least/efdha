@@ -16,9 +16,7 @@ fn travel_circuit() {
                 // There are 6 sides for turn 1, 3 for turn 2, and 2 for turn 3:
                 for _side in 0..6 / turn {
                     // Step in dir for sidelen steps:
-                    for _step in 0..sidelen {
-                        t += dir;
-                    }
+                    t += dir * sidelen;
 
                     // Turn clockwise turn times:
                     for _ in 0..turn {
