@@ -1,5 +1,7 @@
 use crate::domcall::dom_call;
-use wasm_bindgen::prelude::*;
+use crate::jscast;
+use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
+use web_sys::HtmlCanvasElement;
 
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {
@@ -7,9 +9,9 @@ pub fn main() -> Result<(), JsValue> {
     let document = dom_call!(window.document())?;
     let body = dom_call!(document.body())?;
 
-    let val = document.create_element("p")?;
-    val.set_inner_html("Hello from Rust!");
-    body.append_child(&val)?;
+    let canvas: HtmlCanvasElement = jscast(document.create_element("canvas")?)?;
+
+    body.append_child(&canvas)?;
 
     Ok(())
 }
