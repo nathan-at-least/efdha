@@ -1,4 +1,5 @@
 [workspace]
 members = [
-  "hexcoords"
+  "hexcoords",
+  "web_render_hex_board",
 ]
