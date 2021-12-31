@@ -1,16 +1,18 @@
 use crate::domcall::dom_call;
-use crate::jscast;
+use crate::{jscast, log};
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 use web_sys::{CanvasRenderingContext2d, Document, HtmlCanvasElement, HtmlElement};
 
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {
     let rend = Renderer::init()?;
+    log!("Initialized: {:#?}", &rend);
     rend.rerender();
     dom_call!(rend.doc.get_element_by_id("loading"))?.remove();
     Ok(())
 }
 
+#[derive(Debug)]
 struct Renderer {
     doc: Document,
     body: HtmlElement,
@@ -20,6 +22,8 @@ struct Renderer {
 
 impl Renderer {
     fn init() -> Result<Self, JsValue> {
+        log!("Renderer::init");
+
         let window = dom_call!(web_sys::window())?;
         let doc = dom_call!(window.document())?;
         let body = dom_call!(doc.body())?;
