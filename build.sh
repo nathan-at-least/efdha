@@ -3,6 +3,8 @@ set -euxo pipefail
 
 cd "$(dirname "$(readlink -f "$0")")"
 
+cargo check
+
 TARGET='wasm32-unknown-unknown'
 cargo build --target "$TARGET"
 
